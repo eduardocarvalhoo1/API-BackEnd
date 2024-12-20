@@ -1,11 +1,5 @@
 [
   {
-    "id": 1,
-    "reservaName": "Olivia",
-    "reservaType": "Executivo",
-    "reservaDate": "2025-01-21"
-  },
-  {
     "id": 2,
     "reservaName": "Gabi",
     "reservaType": "Luxo",
@@ -28,5 +22,17 @@
     "reservaName": "Bob",
     "reservaType": "Executivo",
     "reservaDate": "2025-02-12"
+  },
+  {
+    "id": 6,
+    "reservaName": "Lil",
+    "reservaType": "Luxo",
+    "reservaDate": "2025-02-12"
+  },
+  {
+    "id": 7,
+    "reservaName": "Sa",
+    "reservaType": "Luxo",
+    "reservaDate": "2025-07-26"
   }
 ]

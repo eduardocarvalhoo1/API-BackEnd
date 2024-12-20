@@ -5,40 +5,59 @@ let reservas = loadReservas();
     // As reservas iniciais
   ];*/
   
-  export const getRandomReserva = (req, res) => {
+  /*export const getRandomReserva = (req, res) => {
     const randomIndex = Math.floor(Math.random() * reservas.length);
     res.json(reservas[randomIndex]);
+  };*/
+  export const getRandomReserva = async (req, res) => {
+    if (reservas.length === 0) {
+      return res.status(404).json({ message: "Nenhuma reserva disponível no momento." });
+    }
+    const randomIndex = Math.floor(Math.random() * reservas.length);
+    res.json({ message: "Reserva encontrada com sucesso.", data: reservas[randomIndex] });
   };
   
-  export const getReservaById = (req, res) => {
+  export const getReservaById = async (req, res) => {
     const id = parseInt(req.params.id);
     const foundReserva = reservas.find((reserva) => reserva.id === id);
+    
+    if (!foundReserva) {
+      return res.status(404).json({ message: `Reserva com ID ${id} não encontrada.` });
+    }
+  
     res.json(foundReserva);
   };
+
+export const getReservaByType = async (req, res) => {
+  const type = req.query.type;
+  if (!type) {
+    return res.status(400).json({ message: "Tipo de reserva não fornecido." });
+  }
+
+  const filteredReservas = reservas.filter((reserva) => reserva.reservaType === type);
+  res.json(filteredReservas);
+};
   
-  export const getReservaByType = (req, res) => {
-    const type = req.query.type;
-    const filteredActivities = reservas.filter((reserva) => reserva.reservaType === type);
-    res.json(filteredActivities);
-  };
-  
-  export const getReservaByDate = (req, res) => {
-    try {
+  export const getReservaByDate = async (req, res) => {
       const date = req.params.date; // Obtém a data da rota
       const foundReservas = reservas.filter((reserva) => reserva.reservaDate === date); // Filtra todas as reservas com a data
   
       if (foundReservas.length === 0) {
-        throw new Error("Nenhuma reserva encontrada para a data especificada.");
+        return res.status(404).json({ message: `Reserva para ${date} não encontrada.` });
       }
   
-    res.json(foundReservas); 
-    } catch (error) {
-      res.status(404).json({ message: error.message });
-    }
+      res.json(foundReservas); 
   };
   
   
-  export const createReserva = (req, res) => {
+  export const createReserva = async (req, res) => {
+
+    const { name, type, date } = req.body;
+
+     
+    if (!name || !type || !date) {
+      return res.status(400).json({ message: "Todos os campos são obrigatórios." });
+    }
     const newReserva = {
       id: reservas.length + 1,
       reservaName: req.body.name,
@@ -49,11 +68,21 @@ let reservas = loadReservas();
 
     saveReservas(reservas);
 
-    res.json(newReserva);
+    res.status(201).json({
+      message: "Reserva criada com sucesso.",
+      data: newReserva
+    });
   };
   
-  export const updateReserva = (req, res) => {
+  export const updateReserva = async (req, res) => {
     const id = parseInt(req.params.id);
+
+    const { name, type, date } = req.body;
+
+    if (!name || !type || !date) {
+      return res.status(400).json({ message: "Todos os campos são obrigatórios." });
+    }
+
     const replacementReserva = {
       id: id,
       reservaName: req.body.name,
@@ -62,27 +91,32 @@ let reservas = loadReservas();
     };
   
     const searchIndex = reservas.findIndex((reserva) => reserva.id === id);
+
+    if (searchIndex === -1) {
+      return res.status(404).json({ message: `Reserva com ID ${id} não encontrada.` });
+    }
   
     reservas[searchIndex] = replacementReserva;
     
     saveReservas(reservas);
 
-    res.json(replacementReserva);
+    res.json({
+      message: "Reserva atualizada com sucesso.",
+      data: replacementReserva
+    });
   };
 
-  export const deleteReservaById = (req, res) => {
+  export const deleteReservaById = async (req, res) => {
     const id = parseInt(req.params.id);
     const searchIndex = reservas.findIndex((reserva) => reserva.id === id);
 
-    if (searchIndex > -1) {
-      reservas.splice(searchIndex, 1);
-      saveReservas(reservas);
-      res.sendStatus(200);
-    } 
-    else {
-      res
-        .sendStatus(404)
-        .json({error: `Reserva com id ${id} não encontrada.`});
+    if (searchIndex === -1) {
+      return res.status(404).json({ message: `Reserva com ID ${id} não encontrada.` });
     }
+  
+    reservas.splice(searchIndex, 1);
+    saveReservas(reservas);
+  
+    res.status(200).json({ message: `Reserva com ID ${id} deletada com sucesso.` });
   };
   
