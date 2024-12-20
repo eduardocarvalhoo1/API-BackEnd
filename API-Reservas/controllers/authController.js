@@ -94,3 +94,23 @@ export const updateUser = (req, res) => {
 
   res.json({ message: "Dados atualizados com sucesso" });
 };
+
+export const install = (req, res) => {
+  const adminExists = users.some(user => user.role === 'admin');
+  if (adminExists) {
+    return res.status(400).json({ message: "Usuário administrador já existe" });
+  }
+
+  const adminUser = {
+    id: users.length + 1,
+    username: "admin",
+    password: "admin123",
+    name: "Administrador",
+    role: "admin"
+  };
+
+  users.push(adminUser);
+  fs.writeFileSync(usersFile, JSON.stringify(users));
+
+  res.status(201).json({ message: "Usuário administrador criado com sucesso", user: adminUser });
+};

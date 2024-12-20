@@ -16,5 +16,17 @@
     "reservaName": "Helena",
     "reservaType": "Familiar",
     "reservaDate": "2025-01-25"
+  },
+  {
+    "id": 4,
+    "reservaName": "Lily",
+    "reservaType": "Familiar",
+    "reservaDate": "2025-02-02"
+  },
+  {
+    "id": 5,
+    "reservaName": "Bob",
+    "reservaType": "Executivo",
+    "reservaDate": "2025-02-12"
   }
 ]

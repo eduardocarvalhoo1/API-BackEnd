@@ -24,18 +24,19 @@ let reservas = loadReservas();
   
   export const getReservaByDate = (req, res) => {
     try {
-      const date = req.params.date;
-      const foundReserva = reservas.find((reserva) => reserva.reservaDate === date);
+      const date = req.params.date; // Obtém a data da rota
+      const foundReservas = reservas.filter((reserva) => reserva.reservaDate === date); // Filtra todas as reservas com a data
   
-      if (!foundReserva) {
-        throw new Error("Reserva não encontrada para a data especificada.");
+      if (foundReservas.length === 0) {
+        throw new Error("Nenhuma reserva encontrada para a data especificada.");
       }
   
-      res.json(foundReserva);
+    res.json(foundReservas); 
     } catch (error) {
       res.status(404).json({ message: error.message });
     }
   };
+  
   
   export const createReserva = (req, res) => {
     const newReserva = {
