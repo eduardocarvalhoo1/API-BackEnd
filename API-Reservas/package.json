@@ -1,7 +1,13 @@
 {
-  "type": "module",
-  "dependencies": {
-    "express": "^4.21.2",
-    "jsonwebtoken": "^9.0.2"
+    "type": "module",
+    "dependencies": {
+      "express": "^4.21.2",
+      "jsonwebtoken": "^9.0.2",
+      "body-parser": "^1.20.3",
+      "fs": "^0.0.1-security"
+    },
+    "scripts": {
+      "start": "node index.js"
+    }
   }
-}
+  

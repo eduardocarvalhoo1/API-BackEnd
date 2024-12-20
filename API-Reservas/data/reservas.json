@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "reservaName": "Olivia",
+    "reservaType": "Executivo",
+    "reservaDate": "2025-01-21"
+  },
+  {
+    "id": 2,
+    "reservaName": "Gabi",
+    "reservaType": "Luxo",
+    "reservaDate": "2025-01-21"
+  },
+  {
+    "id": 3,
+    "reservaName": "Helena",
+    "reservaType": "Familiar",
+    "reservaDate": "2025-01-25"
+  }
+]
