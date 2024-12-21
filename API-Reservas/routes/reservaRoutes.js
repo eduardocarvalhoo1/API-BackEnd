@@ -1,8 +1,10 @@
 import express from "express";
+import { validateReserva } from '../validation/reservaValidation.js';
+import { authenticateToken } from '../middlewares/authenticateToken.js';
 import {
+  getAllReservas,
   getRandomReserva,
   getReservaById,
-  getReservaByType,
   getReservaByDate,
   createReserva,
   updateReserva,
@@ -11,12 +13,12 @@ import {
 
 const router = express.Router();
 
+router.get("/", getAllReservas);
 router.get("/random", getRandomReserva);
 router.get("/:id", getReservaById);
-router.get("/filter", getReservaByType);
 router.get("/date/:date", getReservaByDate);
-router.post("/", createReserva);
-router.put("/:id", updateReserva);
-router.delete("/:id", deleteReservaById);
+router.post("/", authenticateToken, validateReserva, createReserva);
+router.put("/:id", authenticateToken, validateReserva, updateReserva);
+router.delete("/:id",authenticateToken, deleteReservaById);
 
 export default router;

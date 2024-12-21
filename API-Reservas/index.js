@@ -48,7 +48,7 @@ const swaggerDocument = JSON.parse(fs.readFileSync(swaggerFilePath, 'utf-8'));
 // Usar rotas
 app.use("/auth", authRoutes);
 app.use("/reservas", reservaRoutes);
-app.use("/hospedes", hospedeRoutes); // Nova rota de hóspedes
+app.use("/hospedes", hospedeRoutes); 
 
 // Configurar Swagger UI
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
